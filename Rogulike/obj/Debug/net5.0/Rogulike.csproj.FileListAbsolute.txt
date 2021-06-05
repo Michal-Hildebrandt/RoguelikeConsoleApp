@@ -1,0 +1,16 @@
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\Rogulike.exe
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\Rogulike.deps.json
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\Rogulike.runtimeconfig.json
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\Rogulike.runtimeconfig.dev.json
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\Rogulike.dll
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\ref\Rogulike.dll
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\net5.0\Rogulike.pdb
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.AssemblyInfoInputs.cache
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.AssemblyInfo.cs
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.csproj.CoreCompileInputs.cache
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.dll
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\ref\Rogulike.dll
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.pdb
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.genruntimeconfig.cache
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\net5.0\Rogulike.csproj.AssemblyReference.cache
