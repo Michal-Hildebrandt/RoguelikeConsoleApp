@@ -10,10 +10,10 @@ namespace Rogulike
     {
        private List<EnemyGenerator> enemyDifficulty = new List<EnemyGenerator>()
         {
-            new EnemyGenerator() { difficultyRange = 0, Hp = 15, Def = 5, Damage = 10 },
-            new EnemyGenerator() { difficultyRange = 3, Hp = 20, Def = 15, Damage = 15 },
-            new EnemyGenerator() { difficultyRange = 6, Hp = 30, Def = 25, Damage = 25 },
-            new EnemyGenerator() { difficultyRange = 9, Hp = 50, Def = 35, Damage = 40 }
+            new EnemyGenerator() { DifficultyRange = 0, Hp = 15, Damage = 10, Exp = 5 },
+            new EnemyGenerator() { DifficultyRange = 3, Hp = 20, Damage = 15, Exp = 10 },
+            new EnemyGenerator() { DifficultyRange = 6, Hp = 35, Damage = 25, Exp = 25 },
+            new EnemyGenerator() { DifficultyRange = 9, Hp = 50, Damage = 40, Exp = 50 }
         };
         public List<EnemyGenerator> NewEnemy()
         {
@@ -32,16 +32,13 @@ namespace Rogulike
             List<EnemyGenerator> enemyStats = new List<EnemyGenerator>();
             foreach (var EnemyGenerator in enemyDifficulty)
             {
-                if (enemyRangeDifficulty <= EnemyGenerator.difficultyRange)
+                if (enemyRangeDifficulty <= EnemyGenerator.DifficultyRange)
                 {
                     enemyStats.Add(EnemyGenerator);
                     break ;
                 }
-
             }
             return enemyStats;
-
         }
     }
-
 }

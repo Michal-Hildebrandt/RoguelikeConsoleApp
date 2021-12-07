@@ -1,0 +1,14 @@
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\netcoreapp3.1\Rogulike.exe
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\netcoreapp3.1\Rogulike.deps.json
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\netcoreapp3.1\Rogulike.runtimeconfig.json
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\netcoreapp3.1\Rogulike.runtimeconfig.dev.json
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\netcoreapp3.1\Rogulike.dll
+C:\Users\Michał\source\repos\Rogulike\Rogulike\bin\Debug\netcoreapp3.1\Rogulike.pdb
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.csproj.AssemblyReference.cache
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.AssemblyInfoInputs.cache
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.AssemblyInfo.cs
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.csproj.CoreCompileInputs.cache
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.dll
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.pdb
+C:\Users\Michał\source\repos\Rogulike\Rogulike\obj\Debug\netcoreapp3.1\Rogulike.genruntimeconfig.cache

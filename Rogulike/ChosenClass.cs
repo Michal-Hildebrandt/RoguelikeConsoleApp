@@ -13,6 +13,7 @@ namespace Rogulike
         public int Hp { get; set; }
         public int Def { get; set; }
         public int Damage { get; set; }
+        public int Level {get; set; }
 
     }
 }

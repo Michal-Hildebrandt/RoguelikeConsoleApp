@@ -2,29 +2,32 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Rogulike
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-          
             while(true)
             { 
                 MenuActionService actionService = new MenuActionService();
                 actionService = Initialize(actionService);
 
+                Helpers spacingLine = new Helpers();
+                
                 Console.WriteLine("Welcome to my Roguelike RPG");
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main Menu");
                 for (int i = 0; i < mainMenu.Count; i++)
                 {
                     Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
                 }
+                spacingLine.SpacingLine();
 
                 var operation = Console.ReadKey();
                 Console.WriteLine();
+                Console.Clear();
 
                 switch (operation.KeyChar)
                 {
@@ -37,48 +40,93 @@ namespace Rogulike
                         int.TryParse(operation1.KeyChar.ToString(), out val);
                         Console.WriteLine();
 
-                        ChosenClass yourClass = chosenClass.YourClass(val)[0];
+                        ChosenClass result = chosenClass.YourClass(val)[0];
 
-                        Console.WriteLine("Do you want to start as " + yourClass.ClassType.ToString() + " ? (y/n) \n ");
+                        Console.WriteLine("Do you want to start as " + result.ClassType.ToString() + " ? (y/n) \n ");
                         var confirmation = Console.ReadKey().KeyChar;
                         if (confirmation == 'y')
                         {
-                           
+
                         }
-                        else 
+                        else
                         {
                             break;
                         }
                         Console.WriteLine();
                         Console.Clear();
 
-                        int enemyDefeated = 0;
+                        int floor = 1;
 
-                        while (yourClass.Hp > 0)
+                        BattleService battle = new BattleService();
+                        Experience experience = new Experience();
+                        ExperienceService experienceCounter = new ExperienceService();
+                        SkillsService skillsService = new SkillsService();
+
+                        Skills skill = new Skills();
+                        skill = skillsService.GettingPlayerSkill(result)[0];
+
+
+                        while (result.Hp>0)
                         {
-                            EnemyGeneratorService newEnemy = new EnemyGeneratorService();
-                            EnemyGenerator enemyHp = newEnemy.NewEnemy()[0];
-                            Console.WriteLine(" - It has " + enemyHp.Hp.ToString() + " hp \n");
-
-                            var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
-                            for (int i = 0; i < battleMenu.Count; i++)
+                            if (floor != 10 && floor != 20 && floor != 30)
                             {
-                                Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
+                                EnemyGeneratorService newEnemy = new EnemyGeneratorService();
+                                EnemyGenerator enemy = newEnemy.NewEnemy()[0];
+                                Console.WriteLine("It has " + enemy.Hp.ToString() + " hp \n");
+
+                                if (skill.Name == "Blessing" && skill.IsActive == true)
+                                {
+                                    skillsService.BlessingEffect(enemy, skill);
+                                    skill.Duration -= 1;
+
+                                }
+                               
+                                battle.InitializeBattle(result, actionService, enemy, skillsService, skill);
+
+                                if (result.Hp > 0)
+                                {
+                                    experienceCounter.CalculateExperience(enemy, experience, result, skillsService, skill);
+                                    floor++;
+                                }
+
+                                if (skill.Duration < 1 && skill.IsActive == true)
+                                {
+                                    skillsService.SkillEffectEnd(result, skill);
+                                }
+
+                            }
+                            else
+                            {
+                                BossService newBoss = new BossService();
+                                Boss bossStats = newBoss.ChoosingBoss(floor)[0];
+                                Console.WriteLine("It's time for a boss fight ! It's " + bossStats.Name);
+
+                             
+
+                                battle.InitializeBattle(result, actionService, bossStats, skillsService, skill);
+
+                                if (result.Hp > 0)
+                                {
+                                    experienceCounter.CalculateExperience(bossStats, experience, result, skillsService, skill);
+                                    floor++;
+                                }
+                                
+                                if (skill.Duration < 1 && skill.IsActive == true)
+                                {
+                                    skillsService.SkillEffectEnd(result, skill);
+                                }
                             }
 
-                            Battle battle = new Battle();
-                            var playerHp = battle.InitializeBattle(enemyHp, yourClass, actionService, enemyDefeated);
-                            enemyDefeated = enemyDefeated + 1;
                         }
+                        Console.WriteLine("You've completed " + floor + " floor/-s \n");
+
                         Console.WriteLine("Type your nickname: ");
                         var playerNickname = Console.ReadLine();
-                        ScoreService score = new ScoreService();
+                        Score score = new Score();
+                        score.GetScore(floor, playerNickname);
 
-                        score.GetScore(enemyDefeated, playerNickname);
-                        
                         break;
                     case '2':
-
                         using (StreamReader highscore = new StreamReader(@"D:\Highscore.txt"))
                         {
                             string line;
@@ -89,7 +137,15 @@ namespace Rogulike
                         }
                         break;
                     case '3':
-                        // to implement
+                        Console.WriteLine("It's simple project which helps me in learning C# basics.");
+                        Console.WriteLine("Roguelike RPG is based on Random Number Generation (like most of roguelike games)\n" +
+                        "You can choose one from three classes and try to defeat as many enemies as you can\n " +
+                        "To implement or already implemented stuff:" +
+                        "- Skills [X]\n " +
+                        "- Defence [X]\n " +
+                        "- Boss fight []\n " +
+                        "- Getting experience and points from leveling up [X]\n " 
+                        ); 
                         break;
                     default:
                         Console.WriteLine("Press proper key");
@@ -102,15 +158,18 @@ namespace Rogulike
         {
             actionService.AddNewAction(1, "New Game", "Main Menu");
             actionService.AddNewAction(2, "High score", "Main Menu");
-            actionService.AddNewAction(3, "About", "Main Menu");
+            actionService.AddNewAction(3, "About/ To implement", "Main Menu");
 
             actionService.AddNewAction(1, "Warrior - high defence and hp, but low damage", "Choosing Class");
             actionService.AddNewAction(2, "Mage -  high damage, moderate hp and low defence", "Choosing Class");
             actionService.AddNewAction(3, "Rogue - the highest damage, low hp and defence", "Choosing Class");
 
             actionService.AddNewAction(1, "Attack", "Battle");
-            actionService.AddNewAction(2, "Run away \n", "Battle");
+            actionService.AddNewAction(2, "Skills", "Battle");
+            actionService.AddNewAction(3, "Run away \n", "Battle");
+
             return actionService;
         }
+
     }
 }
