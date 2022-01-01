@@ -65,9 +65,9 @@ namespace Rogulike
                         Skills skill = new Skills();
                         skill = skillsService.GettingPlayerSkill(result)[0];
 
-
                         while (result.Hp>0)
                         {
+                            Console.WriteLine("You are on the floor: " + floor);
                             if (floor != 10 && floor != 20 && floor != 30)
                             {
                                 EnemyGeneratorService newEnemy = new EnemyGeneratorService();
@@ -93,17 +93,16 @@ namespace Rogulike
                                 {
                                     skillsService.SkillEffectEnd(result, skill);
                                 }
-
                             }
                             else
                             {
                                 BossService newBoss = new BossService();
                                 Boss bossStats = newBoss.ChoosingBoss(floor)[0];
+                                Skills bossSkills = new Skills();
+                                bossSkills = skillsService.GettingBossSkill(bossStats)[0];
                                 Console.WriteLine("It's time for a boss fight ! It's " + bossStats.Name);
 
-                             
-
-                                battle.InitializeBattle(result, actionService, bossStats, skillsService, skill);
+                                battle.InitializeBattle(result, actionService, bossStats, newBoss, skillsService, skill, bossSkills);
 
                                 if (result.Hp > 0)
                                 {
@@ -143,7 +142,7 @@ namespace Rogulike
                         "To implement or already implemented stuff:" +
                         "- Skills [X]\n " +
                         "- Defence [X]\n " +
-                        "- Boss fight []\n " +
+                        "- Boss fight [X]\n " +
                         "- Getting experience and points from leveling up [X]\n " 
                         ); 
                         break;
@@ -160,9 +159,9 @@ namespace Rogulike
             actionService.AddNewAction(2, "High score", "Main Menu");
             actionService.AddNewAction(3, "About/ To implement", "Main Menu");
 
-            actionService.AddNewAction(1, "Warrior - high defence and hp, but low damage", "Choosing Class");
-            actionService.AddNewAction(2, "Mage -  high damage, moderate hp and low defence", "Choosing Class");
-            actionService.AddNewAction(3, "Rogue - the highest damage, low hp and defence", "Choosing Class");
+            actionService.AddNewAction(1, "Warrior - high hp, low damage, can buff himself", "Choosing Class");
+            actionService.AddNewAction(2, "Mage -  moderate damage, moderate hp, can cast fireball", "Choosing Class");
+            actionService.AddNewAction(3, "Rogue - high damage, low hp, after long preparation can deal massive damage", "Choosing Class");
 
             actionService.AddNewAction(1, "Attack", "Battle");
             actionService.AddNewAction(2, "Skills", "Battle");
@@ -170,6 +169,5 @@ namespace Rogulike
 
             return actionService;
         }
-
     }
 }

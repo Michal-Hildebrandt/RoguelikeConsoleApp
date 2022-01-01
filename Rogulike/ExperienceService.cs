@@ -42,8 +42,7 @@ namespace Rogulike
                         case 1:
            
                             Console.WriteLine(" Currently you have " + result.Hp + " upgrade health (+10 HP - press 1)");
-                            Console.WriteLine(" Currently you have " + result.Def + " upgrade defence (+10 Def - press 2)");
-                            Console.WriteLine(" Currently you have " + result.Damage + " upgrade damage (+5 Dmg - press 3)");
+                            Console.WriteLine(" Currently you have " + result.Damage + " upgrade damage (+5 Dmg - press 2)");
 
                             var operation1 = Console.ReadKey();
                             Console.WriteLine();
@@ -57,10 +56,6 @@ namespace Rogulike
                                     experience.UpgradePoints -= 1;
                                     break;
                                 case 2:
-                                    result.Def += 10;
-                                    experience.UpgradePoints -= 1;
-                                    break;
-                                case 3:
                                     result.Damage += 5;
                                     experience.UpgradePoints -= 1;
                                     break;

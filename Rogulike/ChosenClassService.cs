@@ -11,9 +11,9 @@ namespace Rogulike
 
         public List<ChosenClass> Classes = new List<ChosenClass>()
         {
-            new ChosenClass() {PlayerChoice = 1, ClassType = "Warrior", Hp = 50, Def = 50, Damage = 55, Level = 1},
-            new ChosenClass() {PlayerChoice = 2, ClassType = "Mage", Hp = 35, Def = 35, Damage = 35, Level = 1},
-            new ChosenClass() {PlayerChoice = 3, ClassType = "Rogue", Hp = 20, Def = 20, Damage = 45, Level = 1}
+            new ChosenClass() {PlayerChoice = 1, ClassType = "Warrior", Hp = 50, Damage = 30, Level = 1},
+            new ChosenClass() {PlayerChoice = 2, ClassType = "Mage", Hp = 40, Damage = 40, Level = 1},
+            new ChosenClass() {PlayerChoice = 3, ClassType = "Rogue", Hp = 30, Damage = 50, Level = 1}
         };
 
         public void ChoosingClass(MenuActionService actionService)

@@ -84,31 +84,25 @@ namespace Rogulike
                                     skillsService.BlessingEffect(enemy, skill);
                                     skill.Duration -= 1;
                                 }
+                                
+                                result.Hp -= enemy.Damage;
 
                                 skill.TurnsRequired -= 1;
-                                if (enemy.Damage >= result.Def)
-                                {
-                                    result.Hp = result.Hp - enemy.Damage + result.Def;
-                                    damageTaken = enemy.Damage - result.Def;
-                                }
-                                else
-                                {
-                                    damageTaken = 0;
-                                }
+                                
                                 if (result.Hp <= 0)
                                 {
-                                    Console.WriteLine("You've been attacked and took " + damageTaken + " damage and you've died\n");
+                                    Console.WriteLine("You've been attacked and took " + enemy.Damage + " damage and you've died\n");
                                     spacingLine.SpacingLine();
+                                    break;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("You've been attacked and took " + damageTaken + " damage -> you have " + result.Hp + " hp left \n");
+                                    Console.WriteLine("You've been attacked and took " + enemy.Damage + " damage -> you have " + result.Hp + " hp left \n");
                                     spacingLine.SpacingLine();
                                 }
 
                             }
-                            skill.TurnsRequired = 2;
-
+                            skill.TurnsRequired = default;
                         }
                         break;
                     case 3:
@@ -121,10 +115,8 @@ namespace Rogulike
             }
             return result;
         }
-        public ChosenClass InitializeBattle(ChosenClass result, MenuActionService actionService, Boss bossStats, SkillsService skillsService, Skills skill)
+        public ChosenClass InitializeBattle(ChosenClass result, MenuActionService actionService, Boss bossStats, BossService newBoss, SkillsService skillsService, Skills skill, Skills bossSkill)
         {
-            int damageTaken;
-
             while (bossStats.Hp > 0 && result.Hp > 0)
             {
                 var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
@@ -135,7 +127,6 @@ namespace Rogulike
 
                 Helpers spacingLine = new Helpers();
                 spacingLine.SpacingLine();
-
 
                 var operation1 = Console.ReadKey();
                 Console.WriteLine();
@@ -154,18 +145,8 @@ namespace Rogulike
                         {
                             Console.WriteLine("Boss has " + bossStats.Hp + " hp  \n");
 
-                            result.Hp -= bossStats.Damage;
+                            newBoss.BossBehaviour(skillsService, bossSkill, result, bossStats);
 
-                            if (result.Hp <= 0)
-                            {
-                                Console.WriteLine("You've been attacked and took " + bossStats.Damage + " damage and you've died\n");
-                                spacingLine.SpacingLine();
-                            }
-                            else
-                            {
-                                Console.WriteLine("You've been attacked and took " + bossStats.Damage + " damage -> you have " + result.Hp + " hp left \n");
-                                spacingLine.SpacingLine();
-                            }
                         }
                         break;
                     case 2:
@@ -173,19 +154,8 @@ namespace Rogulike
                         {
                             Console.WriteLine("You need to unlock your skills first !");
 
-                            result.Hp -= bossStats.Damage;
+                            newBoss.BossBehaviour(skillsService, bossSkill, result, bossStats);
 
-                            if (result.Hp <= 0)
-                            {
-                                Console.WriteLine("You've been attacked and took " + bossStats.Damage + " damage and you've died\n");
-                                spacingLine.SpacingLine();
-                            }
-                            else
-                            {
-                                Console.WriteLine("You've been attacked and took " + bossStats.Damage + " damage -> you have " + result.Hp + " hp left \n");
-                                spacingLine.SpacingLine();
-                            }
-                            break;
                         }
                         else
                         {
@@ -200,27 +170,10 @@ namespace Rogulike
                                     skill.Duration -= 1;
                                 }
 
-                                if (bossStats.Damage >= result.Def)
-                                {
-                                    result.Hp = result.Hp - bossStats.Damage + result.Def;
-                                    damageTaken = bossStats.Damage - result.Def;
-                                }
-                                else
-                                {
-                                    damageTaken = 0;
-                                }
-                                if (result.Hp <= 0)
-                                {
-                                    Console.WriteLine("You've been attacked and took " + damageTaken + " damage and you've died\n");
-                                    spacingLine.SpacingLine();
-                                }
-                                else
-                                {
-                                    Console.WriteLine("You've been attacked and took " + damageTaken + " damage -> you have " + result.Hp + " hp left \n");
-                                    spacingLine.SpacingLine();
-                                }
+                                newBoss.BossBehaviour(skillsService, bossSkill, result, bossStats);
+
                             }
-                            skill.TurnsRequired = 2;
+                            skill.TurnsRequired = default;
                         }
                         break;
                     case 3:

@@ -11,7 +11,6 @@ namespace Rogulike
         public int PlayerChoice { get; set; }
         public string ClassType { get; set; }
         public int Hp { get; set; }
-        public int Def { get; set; }
         public int Damage { get; set; }
         public int Level {get; set; }
 

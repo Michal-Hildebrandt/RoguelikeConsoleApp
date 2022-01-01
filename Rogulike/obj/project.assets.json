@@ -1,11 +1,46 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "Roguelike.Domain/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0",
+        "compile": {
+          "bin/placeholder/Roguelike.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Roguelike.Domain.dll": {}
+        }
+      },
+      "Rogulike.App/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0",
+        "compile": {
+          "bin/placeholder/Rogulike.App.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Rogulike.App.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Roguelike.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Roguelike.Domain/Roguelike.Domain.csproj",
+      "msbuildProject": "../Roguelike.Domain/Roguelike.Domain.csproj"
+    },
+    "Rogulike.App/1.0.0": {
+      "type": "project",
+      "path": "../Rogulike.App/Rogulike.App.csproj",
+      "msbuildProject": "../Rogulike.App/Rogulike.App.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Roguelike.Domain >= 1.0.0",
+      "Rogulike.App >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Michał\\.nuget\\packages\\": {}
@@ -33,7 +68,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Michał\\source\\repos\\Rogulike\\Roguelike.Domain\\Roguelike.Domain.csproj": {
+              "projectPath": "C:\\Users\\Michał\\source\\repos\\Rogulike\\Roguelike.Domain\\Roguelike.Domain.csproj"
+            },
+            "C:\\Users\\Michał\\source\\repos\\Rogulike\\Rogulike.App\\Rogulike.App.csproj": {
+              "projectPath": "C:\\Users\\Michał\\source\\repos\\Rogulike\\Rogulike.App\\Rogulike.App.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -60,8 +102,28 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Roguelike.Domain is not compatible with netcoreapp3.1 (.NETCoreApp,Version=v3.1). Project Roguelike.Domain supports: net5.0 (.NETCoreApp,Version=v5.0)",
+      "libraryId": "Roguelike.Domain",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Rogulike.App is not compatible with netcoreapp3.1 (.NETCoreApp,Version=v3.1). Project Rogulike.App supports: net5.0 (.NETCoreApp,Version=v5.0)",
+      "libraryId": "Rogulike.App",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

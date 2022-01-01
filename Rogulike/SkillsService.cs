@@ -11,8 +11,8 @@ namespace Rogulike
             new Skills() {Id = 1, Name = "Blessing", TurnsRequired = 2, Duration = 2},
             new Skills() {Id = 2, Damage = 75, Name = "Fireball", TurnsRequired = 1},
             new Skills() {Id = 3, Damage = 150, Name = "Legacy Strike", TurnsRequired = 3},
-            new Skills() {Id = 10, Damage = 25, Name = "Unholy Strikes", TurnsRequired = 1},
-            new Skills() {Id = 20, Damage = 55, Name = "Behemoth Cleave", TurnsRequired = 1},
+            new Skills() {Id = 10, Damage = 60, Name = "Unholy Strikes", TurnsRequired = 1},
+            new Skills() {Id = 20, Damage = 85, Name = "Behemoth Cleave", TurnsRequired = 1},
             new Skills() {Id = 30, Damage = 999, Name = "Player deletion", TurnsRequired = 5},
         };
 
@@ -61,6 +61,8 @@ namespace Rogulike
                                 result.Damage += 15;
                                 skill.IsActive = true;
                                 break;
+                            default:
+                                break;
                         }
                         break;
                     case "Fireball":
@@ -71,9 +73,12 @@ namespace Rogulike
                                 break;
                             case 0:
                                 Console.WriteLine("You've thrown massive fireball !");
-                                Console.WriteLine("Fireball dealt 75 damage to opponent");
+                                Console.WriteLine("Fireball dealt "+ skill.Damage + " damage to opponent");
+                                 enemy.Hp -= skill.Damage;
                                 break;
-                        }
+                            default:
+                                break;
+                    }
                         break;
                     case "Legacy Strike":
                         switch (skill.TurnsRequired)
@@ -88,15 +93,83 @@ namespace Rogulike
                                 Console.WriteLine("You are preparing final strike");
                                 break;
                             case 0:
-                                Console.WriteLine("With all your dexterity and swiftness you' ve inflicted 150 damage");
+                                Console.WriteLine("With all your dexterity and swiftness you' ve inflicted " + skill.Damage + " damage");
+                                enemy.Hp -= skill.Damage;
                                 break;
-                        }
+                            default:
+                                break;
+                    }
                         break;
 
                     default:
                         break;
                 }
         }
+        public void SkillsAction(Skills skill, ChosenClass result, Boss bossStats)
+        {
+            switch (skill.Name)
+            {
+                case "Blessing":
+                    switch (skill.TurnsRequired)
+                    {
+                        case 2:
+                            Console.WriteLine("You started to pray");
+                            break;
+                        case 1:
+                            Console.WriteLine("Gods are watching your faithful devotion");
+                            break;
+                        case 0:
+                            Console.WriteLine("Gods are pleased - they improved your vitality and damage");
+                            Console.WriteLine("For next 2 turns you won't take any damage");
+                            result.Hp += 10;
+                            result.Damage += 15;
+                            skill.IsActive = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "Fireball":
+                    switch (skill.TurnsRequired)
+                    {
+                        case 1:
+                            Console.WriteLine("You are gathering your inner power to form fireball");
+                            break;
+                        case 0:
+                            Console.WriteLine("You've thrown fireball !");
+                            Console.WriteLine("Fireball dealt " + skill.Damage + " damage to opponent");
+                            bossStats.Hp -= skill.Damage;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "Legacy Strike":
+                    switch (skill.TurnsRequired)
+                    {
+                        case 3:
+                            Console.WriteLine("You silenced your mind");
+                            break;
+                        case 2:
+                            Console.WriteLine("You spotted opponent's weakpoint");
+                            break;
+                        case 1:
+                            Console.WriteLine("You are preparing final strike");
+                            break;
+                        case 0:
+                            Console.WriteLine("With all your dexterity and swiftness you' ve inflicted " + skill.Damage + " damage");
+                            bossStats.Hp -= skill.Damage;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         public void BossSkillsAction(Skills bossSkill, ChosenClass result)
         {
             switch(bossSkill.Name)
@@ -108,7 +181,8 @@ namespace Rogulike
                             Console.WriteLine("Darkness embraces surroundings");
                             break;
                         case 0:
-                            Console.WriteLine("You've been attacked by ");
+                            Console.WriteLine("You've been attacked by evil power !");
+                            result.Hp -= bossSkill.Damage;
                             break;
                     }
                     break;
@@ -119,6 +193,8 @@ namespace Rogulike
                             Console.WriteLine("Boss is gathering his strength");
                             break;
                         case 0:
+                            Console.WriteLine("You've been striked down by Behemoth Cleave !");
+                            result.Hp -= bossSkill.Damage;
                             break;
                     }
                     break;
@@ -139,6 +215,7 @@ namespace Rogulike
                             break;
                         case 0:
                             Console.WriteLine("Boss deleted you like a peasant you are !");
+                            result.Hp -= bossSkill.Damage;
                             break;
                     }
                     break;
