@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rogulike", "Rogulike\Rogulike.csproj", "{C47FB9B9-1CC0-449B-BAA4-D6C8F713A2C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rogulike", "Rogulike\Rogulike.csproj", "{C47FB9B9-1CC0-449B-BAA4-D6C8F713A2C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rogulike.App", "Rogulike.App\Rogulike.App.csproj", "{21A670D8-67EA-4C17-BE25-E7D6619BD227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roguelike.Domain", "Roguelike.Domain\Roguelike.Domain.csproj", "{BEA84B6F-50EB-4A99-90BF-718324C2CF3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C47FB9B9-1CC0-449B-BAA4-D6C8F713A2C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C47FB9B9-1CC0-449B-BAA4-D6C8F713A2C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C47FB9B9-1CC0-449B-BAA4-D6C8F713A2C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A670D8-67EA-4C17-BE25-E7D6619BD227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A670D8-67EA-4C17-BE25-E7D6619BD227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A670D8-67EA-4C17-BE25-E7D6619BD227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A670D8-67EA-4C17-BE25-E7D6619BD227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEA84B6F-50EB-4A99-90BF-718324C2CF3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEA84B6F-50EB-4A99-90BF-718324C2CF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEA84B6F-50EB-4A99-90BF-718324C2CF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEA84B6F-50EB-4A99-90BF-718324C2CF3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
