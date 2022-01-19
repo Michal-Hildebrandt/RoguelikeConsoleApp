@@ -61,7 +61,8 @@ namespace Rogulike
                         int floor = 1;
 
                         Experience experience = new Experience();
-                        ExperienceService experienceCounter = new ExperienceService();
+                        ExperienceService experienceService = new ExperienceService();
+                        ExperienceManager experienceManager = new ExperienceManager();
 
                         SkillsService skillsService = new SkillsService();
                         Skills skill = skillsService.GetAllItems().Where(x => x.Id == result.Id).FirstOrDefault();
@@ -108,8 +109,10 @@ namespace Rogulike
                                 }
 
                                 if (result.Hp > 0)
-                                {
-                                    experienceCounter.CalculateExperience(enemy, experience, result, skill);
+                                {                              
+                                    experienceService.CalculateExperience(enemy, experience, result);
+                                    experienceManager.CurrentExp(experience, result);
+                                    experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
                                     floor++;
                                 }
 
@@ -157,7 +160,9 @@ namespace Rogulike
 
                                 if (result.Hp > 0)
                                 {
-                                    experienceCounter.CalculateExperience(bossStats, experience, result, skill);
+                                    experienceService.CalculateExperience(bossStats, experience, result);
+                                    experienceManager.CurrentExp(experience, result);
+                                    experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
                                     floor++;
                                 }
 
