@@ -1,6 +1,7 @@
 ﻿using Roguelike.App.Commnon;
 using Roguelike.Domain.Entity;
 using System;
+using System.Linq;
 
 namespace Roguelike
 {
@@ -11,15 +12,12 @@ namespace Roguelike
             Initialize();
         }
 
-        public void ChoosingClass(MenuActionService actionService)
+        public ChosenClass GetYourClass(int val,ChosenClassService chosenClassService)
         {
-            var choosingClass = actionService.GetMenuActionsByMenuName("Choosing Class");
-            Console.WriteLine("Choose your class: ");
-            for (int i = 0; i < choosingClass.Count; i++)
-            {
-                Console.WriteLine($"{choosingClass[i].Id}. {choosingClass[i].Name}");
-            }
+            ChosenClass result = chosenClassService.GetAllItems().Where(x => x.Id == val).FirstOrDefault();
+            return result;
         }
+
         private void Initialize()
         {
             CreateItem(new ChosenClass(1, "Warrior", 50, 35, 1));
