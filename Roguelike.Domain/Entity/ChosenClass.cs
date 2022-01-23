@@ -14,6 +14,11 @@ namespace Roguelike.Domain.Entity
         public int Hp { get; set; }
         public int Damage { get; set; }
         public int Level {get; set; }
+
+        public ChosenClass()
+        {
+
+        }
         public ChosenClass(int id, string name, int hp, int damage, int level)
         {
             Id = id;
