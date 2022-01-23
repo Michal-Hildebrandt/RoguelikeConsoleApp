@@ -14,12 +14,28 @@ namespace Rogulike
     {
         static void Main(string[] args)
         {
+            MenuActionService actionService = new MenuActionService();
+            Helpers spacingLine = new Helpers();
+            ChosenClassService chosenClassService = new ChosenClassService();
+            ChosenClassManager confirmation = new ChosenClassManager();
+            Experience experience = new Experience();
+            ExperienceService experienceService = new ExperienceService();
+            ExperienceManager experienceManager = new ExperienceManager();
+            SkillsService skillsService = new SkillsService();
+            EnemyGeneratorService enemyGeneratorService = new EnemyGeneratorService();
+            EnemyGenerator enemyStats = new EnemyGenerator();
+            EnemyGeneratorManager enemyGeneratorManager = new EnemyGeneratorManager();
+            Boss bossStats = new Boss();
+            BossService bossService = new BossService();
+            BossManager bossManager = new BossManager();
+            Skills skill = new Skills();
+            Skills bossSkill = new Skills();
+            ScoreManager scoreManager = new ScoreManager();
+
+            int floor = 1;
+
             while (true)
             {
-                MenuActionService actionService = new MenuActionService();
-
-                Helpers spacingLine = new Helpers();
-
                 Console.WriteLine("Welcome to my Roguelike RPG");
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main Menu");
                 for (int i = 0; i < mainMenu.Count; i++)
@@ -31,10 +47,9 @@ namespace Rogulike
                 var operation = Console.ReadKey();
                 Console.Clear();
 
-                switch (operation.KeyChar)
+               switch (operation.KeyChar)
                 {
                     case '1':
-                        ChosenClassService chosenClassService = new ChosenClassService();
                         chosenClassService.ChoosingClass(actionService);
 
                         var operation1 = Console.ReadKey();
@@ -44,10 +59,7 @@ namespace Rogulike
 
                         ChosenClass result = chosenClassService.GetAllItems().Where(x => x.Id == val).FirstOrDefault();
 
-                        Console.WriteLine("Do you want to start as " + result.Name.ToString() + " ? (y/n) \n ");
-
-                        var confirmation = Console.ReadKey().KeyChar;
-                        if (confirmation == 'y')
+                        if (confirmation.Confirmation(result) == true)
                         {
 
                         }
@@ -55,62 +67,29 @@ namespace Rogulike
                         {
                             break;
                         }
-                        Console.WriteLine();
-                        Console.Clear();
-
-                        int floor = 1;
-
-                        Experience experience = new Experience();
-                        ExperienceService experienceService = new ExperienceService();
-                        ExperienceManager experienceManager = new ExperienceManager();
-
-                        SkillsService skillsService = new SkillsService();
-                        Skills skill = skillsService.GetAllItems().Where(x => x.Id == result.Id).FirstOrDefault();
-
-                        var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
+                        
+                        skill = skillsService.GetAllItems().Where(x => x.Id == result.Id).FirstOrDefault();
 
                         while (result.Hp > 0)
                         {
                             Console.WriteLine("You are on the floor: " + floor);
                             if (floor != 10 && floor != 20 && floor != 30)
                             {
-                                EnemyGeneratorService newEnemy = new EnemyGeneratorService();
-                                EnemyGenerator enemy = newEnemy.NewEnemy();
-                                skillsService.SkillEffectChecker(skill, skillsService, enemy);
-                                BattleManager EnemyBattleManager = new BattleManager(actionService, skillsService, spacingLine);
+                                enemyStats = enemyGeneratorService.NewEnemy();
+                                skillsService.SkillEffectChecker(skill, skillsService, enemyStats);
 
-                                while (enemy.Hp > 0 && result.Hp > 0)
+                                var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
+                                for (int i = 0; i < battleMenu.Count; i++)
                                 {
-                                    for (int i = 0; i < battleMenu.Count; i++)
-                                    {
-                                        Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
-                                    }
-
-                                    spacingLine.SpacingLine();
-
-                                    var operation2 = Console.ReadKey();
-                                    Console.WriteLine();
-                                    int.TryParse(operation2.KeyChar.ToString(), out int val1);
-                                    switch (val1)
-                                    {
-                                        case 1:
-                                            EnemyBattleManager.Attack(result, enemy, spacingLine);
-                                            break;
-                                        case 2:
-                                            EnemyBattleManager.UseSkill(result, enemy, skillsService, skill, spacingLine);
-                                            break;
-                                        case 3:
-                                            EnemyBattleManager.RunAway(result);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-
+                                    Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
                                 }
+
+                                spacingLine.SpacingLine();
+                                enemyGeneratorManager.EnemyBattle(result, enemyStats, enemyGeneratorService, spacingLine, skill, skillsService);
 
                                 if (result.Hp > 0)
                                 {                              
-                                    experienceService.CalculateExperience(enemy, experience, result);
+                                    experienceService.CalculateExperience(enemyStats, experience);
                                     experienceManager.CurrentExp(experience, result);
                                     experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
                                     floor++;
@@ -123,44 +102,21 @@ namespace Rogulike
                             }
                             else
                             {
-                                BossService bossService = new BossService();
-                                Boss bossStats = bossService.NewBoss(bossService, floor);
-                                Skills bossSkill = skillsService.GetAllItems().Where(x => x.Id == bossStats.Id).FirstOrDefault();
-                                BattleManager BossBattleManager = new BattleManager(actionService, bossService, skillsService, spacingLine);
+                                bossStats = bossService.NewBoss(bossService, floor);
+                                bossSkill = skillsService.GetAllItems().Where(x => x.Id == bossStats.Id).FirstOrDefault();
 
-                                while (bossStats.Hp > 0 && result.Hp >0)
+                                var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
+                                for (int i = 0; i < battleMenu.Count; i++)
                                 {
-                                    battleMenu = actionService.GetMenuActionsByMenuName("Battle");
-                                    for (int i = 0; i < battleMenu.Count; i++)
-                                    {
-                                        Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
-                                    }
-
-                                    spacingLine.SpacingLine();
-
-                                    var operation3 = Console.ReadKey();
-                                    Console.WriteLine();
-                                    int.TryParse(operation3.KeyChar.ToString(), out int val2);
-
-                                    switch (val2)
-                                    {
-                                        case 1:
-                                            BossBattleManager.AttackBoss(result, bossStats, bossService, skillsService, bossSkill);
-                                            break;
-                                        case 2:
-                                            BossBattleManager.UseSkill(result, bossStats, skillsService, skill, bossSkill);
-                                            break;
-                                        case 3:
-                                            BossBattleManager.RunAway(result);
-                                            break;
-                                        default:
-                                            break;
-                                    }
+                                    Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
                                 }
+
+                                spacingLine.SpacingLine();
+                                bossManager.BossBattle(result, bossStats, spacingLine, skill, skillsService, bossService, bossSkill);
 
                                 if (result.Hp > 0)
                                 {
-                                    experienceService.CalculateExperience(bossStats, experience, result);
+                                    experienceService.CalculateExperience(bossStats, experience);
                                     experienceManager.CurrentExp(experience, result);
                                     experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
                                     floor++;
@@ -172,14 +128,8 @@ namespace Rogulike
                                 }
                             }
                         }
-                            Console.WriteLine("You've completed " + floor + " floor/-s \n");
-
-                            Console.WriteLine("Type your nickname: ");
-                            var playerNickname = Console.ReadLine();
-                            Score score = new Score();
-                            score.GetScore(floor, playerNickname);
-
-                            break;
+                        scoreManager.Highscore(floor);
+                        break;
                     case '2':
                         using (StreamReader highscore = new StreamReader(@"D:\Highscore.txt"))
                         {
