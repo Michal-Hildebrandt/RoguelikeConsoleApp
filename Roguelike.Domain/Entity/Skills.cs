@@ -14,6 +14,11 @@ namespace Roguelike.Domain.Entity
         public int TurnsRequired { get; set; }
         public bool IsLocked { get; set; }
         public bool IsActive { get; set; }
+
+        public Skills()
+        {
+
+        }
         public Skills (int id,int damage, int duration, string name, int turnsRequired, bool isLocked, bool isActive)
         {
             Id = id;

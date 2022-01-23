@@ -9,6 +9,10 @@ namespace Roguelike
     {
         public string Name { get; set; }
 
+        public Boss()
+        {
+
+        }
         public Boss(int id, int hp, int damage, int exp, string name)
         {
             Id = id;

@@ -14,18 +14,22 @@ namespace Roguelike.Domain.Entity
         public int Hp { get; set; }
         public int Damage { get; set; }
         public int Exp { get; set; }
+        public string Strength { get; set; }
+        public string Type { get; set; }
 
         public EnemyGenerator()
         {
 
         }
-        public EnemyGenerator (int id, int difficultyRange, int hp, int damage, int exp)
+        public EnemyGenerator (int id, int difficultyRange, int hp, int damage, int exp, string strength, string type)
         {
             Id = id;
             DifficultyRange = difficultyRange;
             Hp = hp;
             Damage = damage;
             Exp = exp;
+            Strength = strength;
+            Type = type;
         }
     }
 }
