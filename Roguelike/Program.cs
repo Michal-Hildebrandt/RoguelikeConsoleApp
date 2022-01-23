@@ -16,8 +16,9 @@ namespace Rogulike
         {
             MenuActionService actionService = new MenuActionService();
             Helpers spacingLine = new Helpers();
+            ChosenClass result = new ChosenClass();
             ChosenClassService chosenClassService = new ChosenClassService();
-            ChosenClassManager confirmation = new ChosenClassManager();
+            ChosenClassManager chosenClassManager = new ChosenClassManager();
             Experience experience = new Experience();
             ExperienceService experienceService = new ExperienceService();
             ExperienceManager experienceManager = new ExperienceManager();
@@ -50,16 +51,10 @@ namespace Rogulike
                switch (operation.KeyChar)
                 {
                     case '1':
-                        chosenClassService.ChoosingClass(actionService);
+                        var val =  chosenClassManager.ChoosingClass(actionService);
+                        result = chosenClassService.GetYourClass(val, chosenClassService);
 
-                        var operation1 = Console.ReadKey();
-                        int val;
-                        int.TryParse(operation1.KeyChar.ToString(), out val);
-                        Console.WriteLine();
-
-                        ChosenClass result = chosenClassService.GetAllItems().Where(x => x.Id == val).FirstOrDefault();
-
-                        if (confirmation.Confirmation(result) == true)
+                        if (chosenClassManager.Confirmation(result) == true)
                         {
 
                         }
