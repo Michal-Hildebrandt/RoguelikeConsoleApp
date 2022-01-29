@@ -140,7 +140,6 @@ namespace Roguelike
                     break;
             }
         }
-
         public void BossSkillsAction(Skills bossSkill, ChosenClass result)
         {
             switch(bossSkill.Name)
@@ -192,7 +191,6 @@ namespace Roguelike
                     break;
             }
         }
-
         public void SkillEffectChecker(Skills skill, SkillsService skillsService, EnemyGenerator enemy) 
         {
             if (skill.Name == "Blessing" && skill.IsActive == true)

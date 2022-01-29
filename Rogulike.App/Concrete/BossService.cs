@@ -42,7 +42,8 @@ namespace Roguelike
             {
                 skillsService.BossSkillsAction(bossSkill, result);
                 damageTaken = bossSkill.Damage;
-                if (bossSkill.TurnsRequired == 0) {
+                if (bossSkill.TurnsRequired == 0) 
+                {
                     result.Hp -= bossSkill.Damage;
 
                     if (result.Hp <= 0)
@@ -61,6 +62,60 @@ namespace Roguelike
                 }
              }
         }
+        public ChosenClass AttackBoss(ChosenClass result, Boss bossStats, BossService bossService, SkillsService skillsService, Skills bossSkill)
+        {
+            bossStats.Hp -= result.Damage;
+            if (bossStats.Hp <= 0)
+            {
+                Console.WriteLine("Boss has been defeated");
+                Console.WriteLine("You have earned " + bossStats.Exp + "exp");
+            }
+            else
+            {
+                Console.WriteLine("Boss has " + bossStats.Hp + " hp  \n");
+
+                bossService.BossBehaviour(skillsService, bossSkill, result, bossStats);
+            }
+
+ 
+            return result;
+        }
+        public ChosenClass UseSkill(ChosenClass result, Boss bossStats, BossService bossService, SkillsService skillsService, Skills skill, Skills bossSkill)
+        {
+            if (skill.IsLocked == true)
+            {
+                Console.WriteLine("You need to unlock your skills first !");
+
+                bossService.BossBehaviour(skillsService, bossSkill, result, bossStats);
+
+            }
+            else
+            {
+                for (int i = skill.TurnsRequired; i >= 0; i--)
+                {
+                    skillsService.SkillsAction(skill, result, bossStats);
+                    skill.TurnsRequired -= 1;
+
+                    if (skill.Name == "Blessing" && skill.IsActive == true)
+                    {
+                        skillsService.BlessingEffect(bossStats, skill);
+                        skill.Duration -= 1;
+                    }
+
+                    bossService.BossBehaviour(skillsService, bossSkill, result, bossStats);
+
+                }
+                skill.TurnsRequired = default;
+            }
+            return result;
+        }
+        public ChosenClass RunAway(ChosenClass result, Helpers spacingLine)
+        {
+            Console.WriteLine("You've decided to run away");
+            spacingLine.SpacingLine();
+            return result;
+        }
+
         private void Initialize()
         {
             CreateItem(new Boss(10, 75, 25, 50, "Generic First Boss Name"));
