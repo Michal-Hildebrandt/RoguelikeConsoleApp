@@ -7,6 +7,7 @@ using Roguelike;
 using Roguelike.Domain.Entity;
 using System.Linq;
 using Roguelike.App.Managers;
+using Roguelike.App.Concrete;
 
 namespace Rogulike
 {
@@ -32,11 +33,11 @@ namespace Rogulike
             Skills skill = new Skills();
             Skills bossSkill = new Skills();
             ScoreManager scoreManager = new ScoreManager();
-
-            int floor = 1;
+            ScoreService scoreService = new ScoreService();
 
             while (true)
             {
+                int floor = 1;
                 Console.WriteLine("Welcome to my Roguelike RPG");
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main Menu");
                 for (int i = 0; i < mainMenu.Count; i++)
@@ -123,17 +124,12 @@ namespace Rogulike
                                 }
                             }
                         }
-                        scoreManager.Highscore(floor);
+                        scoreManager.ScoreMenu(floor);
+                        scoreService.CreateOrOverwriteScoreList(floor);
+                        
                         break;
                     case '2':
-                        using (StreamReader highscore = new StreamReader(@"D:\Highscore.txt"))
-                        {
-                            string line;
-                            while ((line = highscore.ReadLine()) != null)
-                            {
-                                Console.WriteLine(line);
-                            }
-                        }
+                        scoreService.ReadScoreList();
                         break;
                     case '3':
                         Console.WriteLine("It's simple project which helps me in learning C# basics.");
