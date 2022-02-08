@@ -16,7 +16,7 @@ namespace Rogulike
         static void Main(string[] args)
         {
             MenuActionService actionService = new MenuActionService();
-            Helpers spacingLine = new Helpers();
+            Helpers helpers= new Helpers();
             ChosenClass result = new ChosenClass();
             ChosenClassService chosenClassService = new ChosenClassService();
             ChosenClassManager chosenClassManager = new ChosenClassManager();
@@ -35,16 +35,20 @@ namespace Rogulike
             ScoreManager scoreManager = new ScoreManager();
             ScoreService scoreService = new ScoreService();
 
+           
+
             while (true)
             {
                 int floor = 1;
+                int bossKillCount = 0;
+                int enemyKillCount = 0;
                 Console.WriteLine("Welcome to my Roguelike RPG");
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main Menu");
                 for (int i = 0; i < mainMenu.Count; i++)
                 {
                     Console.WriteLine($"{mainMenu[i].Id}. {mainMenu[i].Name}");
                 }
-                spacingLine.SpacingLine();
+                helpers.SpacingLine();
 
                 var operation = Console.ReadKey();
                 Console.Clear();
@@ -66,62 +70,87 @@ namespace Rogulike
                         
                         skill = skillsService.GetAllItems().Where(x => x.Id == result.Id).FirstOrDefault();
 
+                        var map = helpers.CreateMap();
+                        helpers.DrawPlayer(result, map);
+                        helpers.DrawEnemyOnMap(map);
+
                         while (result.Hp > 0)
                         {
                             Console.WriteLine("You are on the floor: " + floor);
-                            if (floor != 10 && floor != 20 && floor != 30)
+                            
+                            helpers.GetMap(result, map);
+                            chosenClassService.PlayerMovement(result, map, helpers);
+                            if (helpers.Encounter(result,map) == true)
                             {
-                                enemyStats = enemyGeneratorService.NewEnemy();
-                                skillsService.SkillEffectChecker(skill, skillsService, enemyStats);
-
-                                var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
-                                for (int i = 0; i < battleMenu.Count; i++)
+                                if (floor != 10 && floor != 20 && floor != 30)
                                 {
-                                    Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
+                                    enemyStats = enemyGeneratorService.NewEnemy();
+                                    skillsService.SkillEffectChecker(skill, skillsService, enemyStats);
+
+                                    var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
+                                    for (int i = 0; i < battleMenu.Count; i++)
+                                    {
+                                        Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
+                                    }
+
+                                    helpers.SpacingLine();
+                                    enemyGeneratorManager.EnemyBattle(result, enemyStats, enemyGeneratorService, helpers, skill, skillsService);
+
+                                    if (result.Hp > 0)
+                                    {
+                                        experienceService.CalculateExperience(enemyStats, experience);
+                                        experienceManager.CurrentExp(experience, result);
+                                        experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
+                                    }
+
+                                    if (skill.Duration < 1 && skill.IsActive == true)
+                                    {
+                                        skillsService.SkillEffectEnd(skill);
+                                    }
+                                    Console.Clear();
+                                    enemyKillCount++;
                                 }
-
-                                spacingLine.SpacingLine();
-                                enemyGeneratorManager.EnemyBattle(result, enemyStats, enemyGeneratorService, spacingLine, skill, skillsService);
-
-                                if (result.Hp > 0)
-                                {                              
-                                    experienceService.CalculateExperience(enemyStats, experience);
-                                    experienceManager.CurrentExp(experience, result);
-                                    experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
-                                    floor++;
-                                }
-
-                                if (skill.Duration < 1 && skill.IsActive == true)
+                                else
                                 {
-                                    skillsService.SkillEffectEnd(skill);
-                                }
+                                    bossStats = bossService.NewBoss(bossService, floor);
+                                    bossSkill = skillsService.GetAllItems().Where(x => x.Id == bossStats.Id).FirstOrDefault();
+
+                                    var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
+                                    for (int i = 0; i < battleMenu.Count; i++)
+                                    {
+                                        Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
+                                    }
+
+                                    helpers.SpacingLine();
+                                    bossManager.BossBattle(result, bossStats, helpers, skill, skillsService, bossService, bossSkill);
+
+                                    if (result.Hp > 0)
+                                    {
+                                        experienceService.CalculateExperience(bossStats, experience);
+                                        experienceManager.CurrentExp(experience, result);
+                                        experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
+                                    }
+
+                                    if (skill.Duration < 1 && skill.IsActive == true)
+                                    {
+                                        skillsService.SkillEffectEnd(skill);
+                                    }
+                                    Console.Clear();
+                                    bossKillCount++;
+                                }   
                             }
-                            else
+                            if (helpers.Exit(result, map) == true && (bossKillCount == 1 || enemyKillCount == 3))
                             {
-                                bossStats = bossService.NewBoss(bossService, floor);
-                                bossSkill = skillsService.GetAllItems().Where(x => x.Id == bossStats.Id).FirstOrDefault();
-
-                                var battleMenu = actionService.GetMenuActionsByMenuName("Battle");
-                                for (int i = 0; i < battleMenu.Count; i++)
-                                {
-                                    Console.WriteLine($"{battleMenu[i].Id}. {battleMenu[i].Name}");
-                                }
-
-                                spacingLine.SpacingLine();
-                                bossManager.BossBattle(result, bossStats, spacingLine, skill, skillsService, bossService, bossSkill);
-
-                                if (result.Hp > 0)
-                                {
-                                    experienceService.CalculateExperience(bossStats, experience);
-                                    experienceManager.CurrentExp(experience, result);
-                                    experienceService.LevelUp(result, experience, experienceManager, skill, experienceService);
-                                    floor++;
-                                }
-
-                                if (skill.Duration < 1 && skill.IsActive == true)
-                                {
-                                    skillsService.SkillEffectEnd(skill);
-                                }
+                                floor++;
+                                bossKillCount = 0;
+                                enemyKillCount = 0;
+                                helpers.ProceedToNextFloor(map, floor, helpers,result);
+                            } 
+                            
+                            else if (helpers.Exit(result, map) == true)
+                            {
+                                helpers.DrawPlayer(result, map);
+                                map[7, 5] = 'E';
                             }
                         }
                         scoreManager.ScoreMenu(floor);
