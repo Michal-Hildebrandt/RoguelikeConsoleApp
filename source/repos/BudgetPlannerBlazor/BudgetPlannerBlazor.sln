@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetPlannerBlazor", "BudgetPlannerBlazor\BudgetPlannerBlazor.csproj", "{623D058A-8372-46A7-9794-89AA095649C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{623D058A-8372-46A7-9794-89AA095649C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{623D058A-8372-46A7-9794-89AA095649C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{623D058A-8372-46A7-9794-89AA095649C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{623D058A-8372-46A7-9794-89AA095649C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BCB15ED8-0010-437A-8F61-00A95E8C5494}
+	EndGlobalSection
+EndGlobal
