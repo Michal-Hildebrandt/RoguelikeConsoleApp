@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Roguelike.App\Roguelike.App.csproj" />
+    <ProjectReference Include="..\Roguelike.Domain\Roguelike.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
